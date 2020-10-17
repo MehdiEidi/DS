@@ -188,23 +188,30 @@ public class IntList {
         return remove(occupied - 1);
     }
 
+    /**
+     * Sorts the list.
+     */
+    public void sort() {
+        for(int i = 0; i < occupied - 1; i++) {
+            for(int j = 0; j <= occupied - 2; j++) {
+                if(array[j] > array[j + 1]) {
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         IntList a = IntList.of();
         System.out.println(a);
-        System.out.println(a.pushBack(1).pushBack(2).pushBack(3).pushBack(4).pushBack(5).pushBack(6).pushBack(7).pushBack(8).pushBack(9).pushBack(10).pushBack(11));
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
-        System.out.println(a.removeBack());
+        a.pushBack(8).pushBack(3).pushBack(10).pushBack(0).pushBack(2).pushBack(1);
         System.out.println(a);
-        System.out.println(a.insert(0, 399));
-        System.out.println(a.insert(1, 289782));
+        a.insert(0, 399);
+        a.insert(1, 289782);
+        System.out.println(a);
+        a.sort();
+        System.out.println(a);
     }
 }
