@@ -10,7 +10,8 @@ public class IntList {
      * Creates an empty IntList
      */
     public IntList() {
-        array = new int[0];
+        //Initially the array has 2 space.
+        array = new int[2];
         occupied = 0;
     }
 
@@ -87,10 +88,10 @@ public class IntList {
 
         //In order to be able to make a new array by doubling the size of the old array, we need
         //the old array's size to be 1 at least.
-        if(array.length == 0) {
-            array = new int[1];
-            return;
-        }
+//        if(array.length == 0) {
+//            array = new int[1];
+//            return;
+//        }
 
         if(occupied < array.length) {
             return;
@@ -203,15 +204,47 @@ public class IntList {
         }
     }
 
+    /**
+     * Merge two IntLists. The result will be a sorted array.
+     * @param secondList the second IntList.
+     * @return a sorted and merged IntList.
+     */
+    public IntList merge(IntList secondList) {
+        this.sort();
+        secondList.sort();
+
+        //For storing the merged list.
+        IntList thirdList = new IntList();
+
+        int firstListIndex = 0;
+        int secondListIndex = 0;
+
+        while(firstListIndex < this.size() && secondListIndex < secondList.size()) {
+            if(this.get(firstListIndex) < secondList.get(secondListIndex)) {
+                thirdList.pushBack(this.get(firstListIndex++));
+            } else {
+                thirdList.pushBack(secondList.get(secondListIndex++));
+            }
+        }
+
+        while(firstListIndex < this.size()) {
+            thirdList.pushBack(this.get(firstListIndex++));
+        }
+
+        while(secondListIndex < secondList.size()) {
+            thirdList.pushBack(secondList.get(secondListIndex++));
+        }
+
+        return thirdList;
+    }
+
     public static void main(String[] args) {
-        IntList a = IntList.of();
+        IntList a = new IntList();
+        a.pushBack(1).pushBack(3).pushBack(5).pushBack(7);
         System.out.println(a);
-        a.pushBack(8).pushBack(3).pushBack(10).pushBack(0).pushBack(2).pushBack(1);
-        System.out.println(a);
-        a.insert(0, 399);
-        a.insert(1, 289782);
-        System.out.println(a);
-        a.sort();
-        System.out.println(a);
+        IntList b = new IntList();
+        b.pushBack(2).pushBack(4).pushBack(6).pushBack(8);
+        System.out.println(b);
+        System.out.println(a.merge(b));
     }
 }
