@@ -29,7 +29,6 @@ public class IntList {
      * @param inputArray an array representing the elements that the IntList will be created of.
      */
     public IntList(int[] inputArray) {
-//        array = Arrays.copyOf(inputArray, inputArray.length);
         array = new int[inputArray.length];
         System.arraycopy(inputArray, 0, array, 0, inputArray.length);
         occupied = inputArray.length;
@@ -82,17 +81,6 @@ public class IntList {
 
     //For assuring that the array always has some space for adding a new element
     private void assureCapacity() {
-//        if(array.length == occupied) {
-//            array = Arrays.copyOf(array, array.length + 1);
-//        }
-
-        //In order to be able to make a new array by doubling the size of the old array, we need
-        //the old array's size to be 1 at least.
-//        if(array.length == 0) {
-//            array = new int[1];
-//            return;
-//        }
-
         if(occupied < array.length) {
             return;
         }
@@ -227,10 +215,12 @@ public class IntList {
             }
         }
 
+        //Storing the remaining elements of the first list(if exist any)
         while(firstListIndex < this.size()) {
             thirdList.pushBack(this.get(firstListIndex++));
         }
 
+        //Storing the remaining elements of the second list(if exist any)
         while(secondListIndex < secondList.size()) {
             thirdList.pushBack(secondList.get(secondListIndex++));
         }
