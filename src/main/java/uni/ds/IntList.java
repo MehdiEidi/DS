@@ -235,6 +235,7 @@ public class IntList {
      * @return the IntList.
      */
     public IntList addToProperIndex(int value) {
+        //The linear approach.
         for (int i = 0; i < this.size(); i++) {
             if (value < this.get(i)) {
                 this.insert(i, value);
@@ -242,6 +243,7 @@ public class IntList {
             }
         }
 
+        //If the value is the largest among others.
         this.insert(this.size(), value);
 
         return this;
@@ -260,7 +262,10 @@ public class IntList {
         a.addToProperIndex(3);
         a.addToProperIndex(9);
         a.addToProperIndex(7);
-        
+        a.addToProperIndex(7);
+        a.addToProperIndex(2);
+
+
         System.out.println(a);
     }
 }
