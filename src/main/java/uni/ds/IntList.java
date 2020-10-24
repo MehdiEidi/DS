@@ -10,7 +10,7 @@ public class IntList {
      * Creates an empty IntList
      */
     public IntList() {
-        //Initially the array has 2 space.
+        //Initially the size of array is 2.
         array = new int[2];
         occupied = 0;
     }
@@ -178,7 +178,7 @@ public class IntList {
     }
 
     /**
-     * Sorts the list.
+     * Sorts the list using bubble sort algorithm.
      */
     public void sort() {
         for(int i = 0; i < occupied - 1; i++) {
@@ -198,6 +198,7 @@ public class IntList {
      * @return a sorted and merged IntList.
      */
     public IntList merge(IntList secondList) {
+        //Making sure that both lists are sorted.
         this.sort();
         secondList.sort();
 
@@ -228,13 +229,38 @@ public class IntList {
         return thirdList;
     }
 
+    /**
+     * This method gets a value and inserts that value to an index in which the list always stays sorted.
+     * @param value the value to be stored.
+     * @return the IntList.
+     */
+    public IntList addToProperIndex(int value) {
+        for (int i = 0; i < this.size(); i++) {
+            if (value < this.get(i)) {
+                this.insert(i, value);
+                return this;
+            }
+        }
+
+        this.insert(this.size(), value);
+
+        return this;
+    }
+
     public static void main(String[] args) {
         IntList a = new IntList();
-        a.pushBack(1).pushBack(3).pushBack(5).pushBack(7);
         System.out.println(a);
-        IntList b = new IntList();
-        b.pushBack(2).pushBack(4).pushBack(6).pushBack(8);
-        System.out.println(b);
-        System.out.println(a.merge(b));
+
+        a.addToProperIndex(5);
+        System.out.println(a);
+        a.addToProperIndex(8);
+        System.out.println(a);
+        a.addToProperIndex(6);
+        a.addToProperIndex(2);
+        a.addToProperIndex(3);
+        a.addToProperIndex(9);
+        a.addToProperIndex(7);
+        
+        System.out.println(a);
     }
 }
