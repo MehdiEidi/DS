@@ -1,5 +1,6 @@
 package uni.ds;
 
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public class IntLinkedList {
@@ -112,28 +113,153 @@ public class IntLinkedList {
             throw new NoSuchElementException("Index is out of bounds: " + index);
         }
 
-        Node current = head;
-        int i = 0;
-        while (i != index) {
-            current = current.getNext();
-            i++;
-
-            if (current == null) {
-                throw new NoSuchElementException("Index is out of bounds: " + index);
-            }
-        }
+        Node current = findTheRightNode(index, 1);
 
         return current.getValue();
     }
 
+    /**
+     * A helper method for finding the right node that we are looking for based on the index. There is a difference
+     * between the operation in which we need this method. In the get() method, we need the exact Node in the given
+     * position, but in the insert() method we need the previous Node of the given position. So, for making this difference
+     * we get a second argument called operation.
+     * @param index the position in which we are looking for the node at that position.
+     * @param operation determines that if we want to return the exact node in the given position, or the previous node of
+     *                  that position. 1 means the exact node. 2 means the previous node.
+     * @return the found Node.
+     */
+    private Node findTheRightNode(int index, int operation) {
+        Node current = head;
+        int i = 0;
+        if (operation == 1) {
+            while (i != index) {
+                current = current.getNext();
+                i++;
+
+                if (current == null) {
+                    throw new NoSuchElementException("Index is out of bounds: " + index);
+                }
+            }
+        } else if (operation == 2) {
+            while (i != index - 1) {
+                current = current.getNext();
+                i++;
+
+                if (current == null) {
+                    throw new NoSuchElementException("Index is out of bounds: " + index);
+                }
+            }
+        }
+
+
+        return current;
+    }
+
+    /**
+     * To insert a value into the LinkedList into the given position.
+     * @param index the position in which the value will be stored.
+     * @param value the value to be stored.
+     * @return the list itself.
+     */
+    public IntLinkedList insert(int index, int value) {
+        if (index == 0) {
+            return addFront(value);
+        } else if (index == size) {
+            return addLast(value);
+        }
+
+        Node nodeInIndex = findTheRightNode(index, 2);
+
+        Node newNode = new Node(value, nodeInIndex.getNext());
+
+        nodeInIndex.setNext(newNode);
+
+        return this;
+    }
+
+    /**
+     * To delete the first value from the list.
+     * @return the deleted value.
+     */
+    public int deleteFront() {
+        Node exactNode = findTheRightNode(0, 1);
+        int value = exactNode.getValue();
+
+        head = head.getNext();
+
+        return value;
+    }
+
+    /**
+     * To delete the last value of the list.
+     * @return the deleted value.
+     */
+    public int deleteLast() {
+        Node previousNode= findTheRightNode(size -1, 2);;
+        Node exactNode = findTheRightNode(size - 1, 1);
+        int value = exactNode.getValue();
+
+        previousNode.setNext(null);
+        tail = previousNode;
+
+        return value;
+    }
+
+    /**
+     * To remove a value from the list.
+     * @param index the index of the value to be removed.
+     * @return the removed value.
+     */
+    public int delete(int index) {
+        if (index < 0 || index >= size) {
+            throw new NoSuchElementException("Index is out of bounds: " + index);
+        }
+
+        if (index == 0) {
+            return deleteFront();
+        } else if (index == size - 1) {
+            return deleteLast();
+        }
+
+        Node previousNode = findTheRightNode(index, 2);
+        Node exactNode = findTheRightNode(index, 1);
+
+        int value = exactNode.getValue();
+
+        previousNode.setNext(exactNode.getNext());
+
+        return value;
+    }
+
     public static void main(String[] args) {
         IntLinkedList list = new IntLinkedList();
-        
-        list.addFront(32).addFront(100).addFront(3323);
+
+        list.addLast(1).addLast(2).addLast(3).addLast(4).addLast(5);
 
         System.out.println(list.get(0));
         System.out.println(list.get(1));
         System.out.println(list.get(2));
-        System.out.println(list.size());
+        System.out.println(list.get(3));
+        System.out.println(list.get(4));
+        System.out.println("---------------------------------");
+
+
+
+        list.delete(3);
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+        System.out.println(list.get(2));
+        System.out.println(list.get(3));
+
+//        LinkedList<Integer> a = new LinkedList<>();
+//
+//        a.add(3);
+//        a.add(4);
+//        a.add(5);
+//        a.add(6);
+//        a.add(7);
+//        a.add(3, 100);
+//        System.out.println(a);
+
     }
 }
