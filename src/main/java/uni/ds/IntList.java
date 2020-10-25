@@ -3,15 +3,22 @@ package uni.ds;
 import java.util.Arrays;
 
 public class IntList {
+    /**
+     * For storing the elements.
+     */
     private int[] array;
+
+    /**
+     * The number of the elements the list contains.
+     */
     private int occupied;
 
     /**
      * Creates an empty IntList
      */
     public IntList() {
-        //Initially the size of array is 2.
-        array = new int[2];
+        array = new int[2]; //Initially size of array is 2.
+
         occupied = 0;
     }
 
@@ -60,11 +67,38 @@ public class IntList {
     }
 
     /**
+     * To determine if the list is empty.
+     * @return true, if the list is empty.
+     */
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    //Checks the given index and yields an exception if the index is out of bounds.
+    private void checkIndex(int index) {
+        if(index < 0 || index > occupied) {
+            throw new IllegalArgumentException("Index is out of bounds: " + index);
+        }
+    }
+
+    /**
+     * Clears the list. Removes all elements.
+     */
+    public void clear() {
+        array = new int[2];
+        occupied = 0;
+    }
+
+    /**
      * Returns an element from the IntList stored in the given position.
      * @param index index of the element that will be returned.
      * @return the element in the given position.
      */
     public int get(int index) {
+        if(index < 0 || index >= occupied) {
+            throw new IllegalArgumentException("Index is out of bounds: " + index);
+        }
+
         return array[index];
     }
 
@@ -75,7 +109,10 @@ public class IntList {
      * @return the IntList. For having fluent method chaining.
      */
     public IntList set(int index, int val) {
+        checkIndex(index);
+
         array[index] = val;
+
         return this;
     }
 
@@ -103,9 +140,7 @@ public class IntList {
      * @return the IntList. For having fluent method chaining.
      */
     public IntList insert(int index, int val) {
-        if(index < 0 || index > occupied) {
-            throw new IllegalArgumentException("Index is out of bounds: " + index);
-        }
+        checkIndex(index);
 
         assureCapacity();
 
@@ -144,8 +179,8 @@ public class IntList {
      * @return the removed element.
      */
     public int remove(int index) {
-        if (index < 0 || index > occupied) {
-            throw new IllegalArgumentException("index is out of bounds: " + index);
+        if(index < 0 || index >= occupied) {
+            throw new IllegalArgumentException("Index is out of bounds: " + index);
         }
 
         int val = array[index];
