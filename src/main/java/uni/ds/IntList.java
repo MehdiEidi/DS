@@ -1,24 +1,17 @@
 package uni.ds;
 
+
 import java.util.Arrays;
 
 public class IntList {
-    /**
-     * For storing the elements.
-     */
     private int[] array;
-
-    /**
-     * The number of the elements the list contains.
-     */
     private int occupied;
 
     /**
      * Creates an empty IntList
      */
     public IntList() {
-        array = new int[2]; //Initially size of array is 2.
-
+        array = new int[2];
         occupied = 0;
     }
 
@@ -118,12 +111,10 @@ public class IntList {
 
     //For assuring that the array always has some space for adding a new element
     private void assureCapacity() {
-        if(occupied < array.length) {
-            return;
+        if(!(occupied < array.length)) {
+            //For making the insertion a bit faster, we make a new array with double size when it gets full.
+            array = Arrays.copyOf(array, 2 * array.length);
         }
-
-        //For making the insertion a bit faster, we make a new array with double size.
-        array = Arrays.copyOf(array, 2 * array.length);
     }
 
     //When the 3/4 of the array is empty, we shrink it by making a new array with 1/2 size.
@@ -286,21 +277,6 @@ public class IntList {
 
     public static void main(String[] args) {
         IntList a = new IntList();
-        System.out.println(a);
-
-        a.addToProperIndex(5);
-        System.out.println(a);
-        a.addToProperIndex(8);
-        System.out.println(a);
-        a.addToProperIndex(6);
-        a.addToProperIndex(2);
-        a.addToProperIndex(3);
-        a.addToProperIndex(9);
-        a.addToProperIndex(7);
-        a.addToProperIndex(7);
-        a.addToProperIndex(2);
-
-
-        System.out.println(a);
+        IntList b = new IntList();
     }
 }
